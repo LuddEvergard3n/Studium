@@ -1,66 +1,106 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDIUM</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>STUDIUM — Gestão de Estudos</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div id="app">
     <header>
-        <h1>STUDIUM</h1>
-        <p>Sistema Universal de Estudos e Métricas</p>
-        <nav>
-            <a href="#cronograma">Cronograma</a>
-            <a href="#calculadora">Calculadora</a>
-            <a href="#dashboard">Dashboard</a>
-        </nav>
+      <h1>STUDIUM</h1>
+      <p>Sistema Universal de Estudos e Métricas</p>
+      <div class="controls">
+        <button id="themeToggle">Alternar Tema</button>
+        <button id="exportBtn">Exportar JSON</button>
+      </div>
+      <nav>
+        <a href="#cronograma">Cronograma</a>
+        <a href="#pomodoro">Pomodoro</a>
+        <a href="#retencao">Retenção</a>
+        <a href="#habitos">Hábitos</a>
+        <a href="#dashboard">Dashboard</a>
+      </nav>
     </header>
 
     <main>
-        <section id="cronograma" class="box">
-            <h2>Cronograma Automático</h2>
-            <label>Horas disponíveis por semana:
-                <input type="number" id="horasSemana">
-            </label>
+      <!-- CRONOGRAMA -->
+      <section id="cronograma" class="panel">
+        <h2>Cronograma Semanal</h2>
+        <div class="row">
+          <label>Horas disponíveis por dia (ex: 1,2,1,2,3,0,0):</label>
+          <input id="diasHoras" placeholder="seg,ter,qua,qui,sex,sab,dom" />
+        </div>
+        <div class="row">
+          <label>Matérias (nome:prioridade:totalHoras, separadas por ; )</label>
+          <input id="materiasInput" placeholder="História:2:40;Inglês:1:30" />
+        </div>
+        <div class="row">
+          <button id="btnGerarCrono">Gerar Cronograma</button>
+          <button id="btnDividirConteudo">Dividir Conteúdo</button>
+        </div>
+        <pre id="cronogramaOutput" class="output"></pre>
+      </section>
 
-            <label>Matérias (separe por vírgulas):
-                <input type="text" id="materias">
-            </label>
+      <!-- POMODORO -->
+      <section id="pomodoro" class="panel">
+        <h2>Pomodoro</h2>
+        <div class="row">
+          <label>Foco (min): <input id="pomFocus" type="number" value="25" /></label>
+          <label>Curto (min): <input id="pomShort" type="number" value="5" /></label>
+          <label>Longo (min): <input id="pomLong" type="number" value="15" /></label>
+        </div>
+        <div class="row">
+          <button id="pomStart">Iniciar</button>
+          <button id="pomStop">Parar</button>
+        </div>
+        <div class="row">
+          <div id="pomDisplay" class="timer">00:00</div>
+          <div id="pomState"></div>
+        </div>
+      </section>
 
-            <button id="btnCronograma">Gerar Cronograma</button>
-            <pre id="outputCronograma"></pre>
-        </section>
+      <!-- RETENÇÃO -->
+      <section id="retencao" class="panel">
+        <h2>Retenção por Revisão</h2>
+        <div class="row">
+          <label>Última revisão (dias atrás): <input id="diasDesdeRevisao" type="number" value="0" /></label>
+          <label>Revisões feitas: <input id="revisoesFeitas" type="number" value="0" /></label>
+        </div>
+        <div class="row">
+          <button id="btnCalcularRetencao">Calcular Retenção</button>
+        </div>
+        <pre id="retencaoOutput" class="output"></pre>
+      </section>
 
-        <section id="calculadora" class="box">
-            <h2>Calculadora de Carga de Estudo</h2>
-            <label>Horas totais necessárias:
-                <input type="number" id="horasTotais">
-            </label>
+      <!-- HÁBITOS -->
+      <section id="habitos" class="panel">
+        <h2>Planilha de Hábitos</h2>
+        <div class="row">
+          <input id="habitoNome" placeholder="Nome do hábito (ex: resumo diário)" />
+          <button id="btnAddHabito">Adicionar</button>
+        </div>
+        <div class="row">
+          <div id="habitosList"></div>
+        </div>
+      </section>
 
-            <label>Semanas disponíveis:
-                <input type="number" id="semanasDisp">
-            </label>
-
-            <button id="btnCalcular">Calcular</button>
-            <pre id="outputCalculo"></pre>
-        </section>
-
-        <section id="dashboard" class="box">
-            <h2>Dashboard</h2>
-
-            <p>Seu progresso semanal:</p>
-            <progress id="barra" value="0" max="100"></progress>
-            <p id="porcentagem">0%</p>
-
-            <label>Atualizar Progresso (%):
-                <input type="number" id="novoProgresso">
-            </label>
-
-            <button id="btnProgresso">Atualizar</button>
-        </section>
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="panel">
+        <h2>Dashboard</h2>
+        <div id="dashStats" class="output"></div>
+        <div class="row">
+          <button id="btnAtualizarDash">Atualizar Dashboard</button>
+        </div>
+      </section>
     </main>
 
-    <script src="script.js"></script>
+    <footer>
+      <small>STUDIUM • sem backend • dados locais (localStorage)</small>
+    </footer>
+  </div>
+
+  <script type="module" src="main.js"></script>
 </body>
 </html>
