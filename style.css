@@ -1,0 +1,123 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "JetBrains Mono", monospace;
+}
+
+body {
+    background: #0a0a0f;
+    color: #c7ffc4;
+    overflow-x: hidden;
+}
+
+/* Boot Screen */
+#boot-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    color: #00ff9d;
+    font-size: 1rem;
+    padding: 20px;
+}
+
+#boot-screen pre {
+    text-shadow: 0 0 10px #00ff9d;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 80px 20px 40px;
+}
+
+.title {
+    font-size: 2.8rem;
+    color: #7b3de2;
+    text-shadow: 0 0 15px #7b3de2;
+}
+
+.subtitle {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* Sections */
+.section {
+    width: 90%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    border-left: 3px solid #7b3de2;
+    background: rgba(20, 20, 35, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.section h2 {
+    margin-bottom: 15px;
+    color: #00ff9d;
+    text-shadow: 0 0 10px #00ff9d;
+}
+
+/* Cards */
+.card {
+    background: rgba(50, 20, 80, 0.25);
+    border: 1px solid #7b3de2;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.card:hover {
+    background: rgba(90, 40, 130, 0.35);
+    transform: translateX(5px);
+}
+
+/* Skills */
+.skills-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.skills-list li {
+    background: rgba(0, 255, 140, 0.1);
+    border: 1px solid #00ff9d;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.skills-list li:hover {
+    background: rgba(0, 255, 140, 0.2);
+    transform: scale(1.05);
+}
+
+/* Contact */
+#contato p {
+    margin-bottom: 5px;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .section {
+        padding: 15px;
+    }
+
+    .skills-list {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}

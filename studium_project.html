@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDIUM – Sistema Universal de Estudos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>STUDIUM</h1>
+        <p>Sistema Universal de Estudos e Métricas</p>
+        <nav>
+            <a href="#cronograma">Cronograma</a>
+            <a href="#calculadora">Calculadora</a>
+            <a href="#dashboard">Dashboard</a>
+        </nav>
+    </header>
+
+    <section id="cronograma" class="card">
+        <h2>Cronograma Automático</h2>
+        <label>Horas disponíveis por semana:</label>
+        <input id="horasSemana" type="number" min="1" placeholder="Ex: 12">
+
+        <label>Matérias (separe por vírgulas):</label>
+        <input id="materias" type="text" placeholder="História, Inglês, Matemática">
+
+        <button onclick="gerarCronograma()">Gerar Cronograma</button>
+        <div id="resultadoCronograma"></div>
+    </section>
+
+    <section id="calculadora" class="card">
+        <h2>Calculadora de Carga de Estudo</h2>
+        <label>Horas totais necessárias:</label>
+        <input id="horasTotais" type="number" placeholder="Ex: 40">
+
+        <label>Semanas disponíveis:</label>
+        <input id="semanas" type="number" placeholder="Ex: 5">
+
+        <button onclick="calcularCarga()">Calcular</button>
+        <div id="resultadoCarga"></div>
+    </section>
+
+    <section id="dashboard" class="card">
+        <h2>Dashboard</h2>
+        <p>Seu progresso semanal:</p>
+        <progress id="barraProgresso" value="0" max="100"></progress>
+        <p id="textoProgresso">0%</p>
+
+        <label>Atualizar Progresso (%):</label>
+        <input id="inputProgresso" type="number" min="0" max="100">
+        <button onclick="atualizarProgresso()">Atualizar</button>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
