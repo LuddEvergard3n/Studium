@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDIUM – Sistema Universal de Estudos</title>
+    <title>STUDIUM</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,40 +17,49 @@
         </nav>
     </header>
 
-    <section id="cronograma" class="card">
-        <h2>Cronograma Automático</h2>
-        <label>Horas disponíveis por semana:</label>
-        <input id="horasSemana" type="number" min="1" placeholder="Ex: 12">
+    <main>
+        <section id="cronograma" class="box">
+            <h2>Cronograma Automático</h2>
+            <label>Horas disponíveis por semana:
+                <input type="number" id="horasSemana">
+            </label>
 
-        <label>Matérias (separe por vírgulas):</label>
-        <input id="materias" type="text" placeholder="História, Inglês, Matemática">
+            <label>Matérias (separe por vírgulas):
+                <input type="text" id="materias">
+            </label>
 
-        <button onclick="gerarCronograma()">Gerar Cronograma</button>
-        <div id="resultadoCronograma"></div>
-    </section>
+            <button id="btnCronograma">Gerar Cronograma</button>
+            <pre id="outputCronograma"></pre>
+        </section>
 
-    <section id="calculadora" class="card">
-        <h2>Calculadora de Carga de Estudo</h2>
-        <label>Horas totais necessárias:</label>
-        <input id="horasTotais" type="number" placeholder="Ex: 40">
+        <section id="calculadora" class="box">
+            <h2>Calculadora de Carga de Estudo</h2>
+            <label>Horas totais necessárias:
+                <input type="number" id="horasTotais">
+            </label>
 
-        <label>Semanas disponíveis:</label>
-        <input id="semanas" type="number" placeholder="Ex: 5">
+            <label>Semanas disponíveis:
+                <input type="number" id="semanasDisp">
+            </label>
 
-        <button onclick="calcularCarga()">Calcular</button>
-        <div id="resultadoCarga"></div>
-    </section>
+            <button id="btnCalcular">Calcular</button>
+            <pre id="outputCalculo"></pre>
+        </section>
 
-    <section id="dashboard" class="card">
-        <h2>Dashboard</h2>
-        <p>Seu progresso semanal:</p>
-        <progress id="barraProgresso" value="0" max="100"></progress>
-        <p id="textoProgresso">0%</p>
+        <section id="dashboard" class="box">
+            <h2>Dashboard</h2>
 
-        <label>Atualizar Progresso (%):</label>
-        <input id="inputProgresso" type="number" min="0" max="100">
-        <button onclick="atualizarProgresso()">Atualizar</button>
-    </section>
+            <p>Seu progresso semanal:</p>
+            <progress id="barra" value="0" max="100"></progress>
+            <p id="porcentagem">0%</p>
+
+            <label>Atualizar Progresso (%):
+                <input type="number" id="novoProgresso">
+            </label>
+
+            <button id="btnProgresso">Atualizar</button>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
