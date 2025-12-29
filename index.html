@@ -3,101 +3,179 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>STUDIUM — Gestão de Estudos</title>
+  <title>STUDIUM — Gestão de Estudos Inteligente</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <div id="app">
     <header>
-      <h1>STUDIUM</h1>
-      <p>Sistema Universal de Estudos e Métricas</p>
+      <h1 data-i18n="appName">STUDIUM</h1>
+      <p data-i18n="appSubtitle">Sistema Universal de Estudos e Métricas</p>
       <div class="controls">
-        <button id="themeToggle">Alternar Tema</button>
-        <button id="exportBtn">Exportar JSON</button>
+        <div class="lang-selector">
+          <button id="langPt" class="active" data-lang="pt">PT</button>
+          <button id="langEn" data-lang="en">EN</button>
+          <button id="langEs" data-lang="es">ES</button>
+        </div>
+        <button id="themeToggle" data-i18n-title="theme">🌓</button>
+        <button id="exportBtn" data-i18n="export">Exportar</button>
+        <button id="importBtn" data-i18n="import">Importar</button>
+        <button id="pdfBtn" data-i18n="generatePDF">PDF</button>
+        <button id="focusModeBtn" data-i18n-title="focusMode">Foco</button>
       </div>
       <nav>
-        <a href="#cronograma">Cronograma</a>
-        <a href="#pomodoro">Pomodoro</a>
-        <a href="#retencao">Retenção</a>
-        <a href="#habitos">Hábitos</a>
-        <a href="#dashboard">Dashboard</a>
+        <a href="#dashboard" class="nav-link active" data-panel="dashboard" data-i18n="dashboard">Dashboard</a>
+        <a href="#cronograma" class="nav-link" data-panel="cronograma" data-i18n="schedule">Cronograma</a>
+        <a href="#pomodoro" class="nav-link" data-panel="pomodoro" data-i18n="pomodoro">Pomodoro</a>
+        <a href="#habitos" class="nav-link" data-panel="habitos" data-i18n="habits">Hábitos</a>
+        <a href="#retencao" class="nav-link" data-panel="retencao" data-i18n="retention">Retenção</a>
       </nav>
     </header>
 
     <main>
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="panel active">
+        <h2 data-i18n="dashboard">Dashboard</h2>
+        <div id="dashStats" class="dashboard-grid"></div>
+        <div class="row separated">
+          <button id="btnAtualizarDash" data-i18n="update">Atualizar Dashboard</button>
+        </div>
+      </section>
+
       <!-- CRONOGRAMA -->
       <section id="cronograma" class="panel">
-        <h2>Cronograma Semanal</h2>
+        <h2 data-i18n="schedule">Cronograma Semanal</h2>
+        
+        <!-- Configuração de Horas -->
         <div class="row">
-          <label>Horas disponíveis por dia (ex: 1,2,1,2,3,0,0):</label>
-          <input id="diasHoras" placeholder="seg,ter,qua,qui,sex,sab,dom" />
+          <label>
+            <strong data-i18n="hoursPerDay">Horas disponíveis por dia:</strong>
+            <input id="diasHoras" type="text" data-i18n-placeholder="hoursPerDay" placeholder="Ex: 2,3,2,3,4,1,0" />
+          </label>
         </div>
+        
+        <!-- Adicionar Matérias -->
+        <div style="background: var(--bg-secondary); padding: var(--space-lg); border-radius: var(--radius-md); margin-bottom: var(--space-lg); border: 1px solid var(--border-color);">
+          <h3 style="font-size: 1rem; margin-bottom: var(--space-md); color: var(--text-primary);">Adicionar Matéria</h3>
+          <div class="row" style="align-items: flex-end;">
+            <label style="flex: 2;">
+              <strong>Nome da Matéria:</strong>
+              <input id="materiaNome" type="text" placeholder="Ex: História" />
+            </label>
+            <label style="flex: 1;">
+              <strong>Prioridade (1-7):</strong>
+              <select id="materiaPrioridade" style="padding: var(--space-sm) var(--space-md); border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); font-size: 0.875rem; width: 100%;">
+                <option value="1">1 - Alta</option>
+                <option value="2" selected>2 - Média-Alta</option>
+                <option value="3">3 - Média</option>
+                <option value="4">4 - Média-Baixa</option>
+                <option value="5">5 - Baixa</option>
+                <option value="6">6 - Muito Baixa</option>
+                <option value="7">7 - Mínima</option>
+              </select>
+            </label>
+            <label style="flex: 1;">
+              <strong>Total de Horas:</strong>
+              <input id="materiaHoras" type="number" min="1" value="10" placeholder="10" />
+            </label>
+            <button id="btnAddMateria" style="flex: 0 0 auto;">Adicionar</button>
+          </div>
+        </div>
+        
+        <!-- Lista de Matérias Adicionadas -->
+        <div id="materiasList" style="margin-bottom: var(--space-lg);"></div>
+        
+        <!-- Botão de Limpar -->
         <div class="row">
-          <label>Matérias (nome:prioridade:totalHoras, separadas por ; )</label>
-          <input id="materiasInput" placeholder="História:2:40;Inglês:1:30" />
+          <button id="btnLimparMaterias" class="secondary">Limpar Matérias</button>
         </div>
-        <div class="row">
-          <button id="btnGerarCrono">Gerar Cronograma</button>
-          <button id="btnDividirConteudo">Dividir Conteúdo</button>
-        </div>
-        <pre id="cronogramaOutput" class="output"></pre>
+        
+        <!-- Resultados (gerados automaticamente) -->
+        <div id="cronogramaOutput" class="output" style="display: none;"></div>
+        <div id="cronogramaTable" class="cronograma-table-container"></div>
+        <div id="cronogramaGrid" class="weekly-grid"></div>
       </section>
 
       <!-- POMODORO -->
       <section id="pomodoro" class="panel">
-        <h2>Pomodoro</h2>
-        <div class="row">
-          <label>Foco (min): <input id="pomFocus" type="number" value="25" /></label>
-          <label>Curto (min): <input id="pomShort" type="number" value="5" /></label>
-          <label>Longo (min): <input id="pomLong" type="number" value="15" /></label>
+        <h2 data-i18n="pomodoro">Pomodoro Timer</h2>
+        <div class="pomodoro-container">
+          <div class="row" style="justify-content: center; gap: 1.5rem;">
+            <label>
+              <span data-i18n="focusTime">Foco (min):</span>
+              <input id="pomFocus" type="number" value="25" min="1" max="60" />
+            </label>
+            <label>
+              <span data-i18n="shortBreak">Pausa Curta (min):</span>
+              <input id="pomShort" type="number" value="5" min="1" max="30" />
+            </label>
+            <label>
+              <span data-i18n="longBreak">Pausa Longa (min):</span>
+              <input id="pomLong" type="number" value="15" min="1" max="60" />
+            </label>
+          </div>
+          <div id="pomDisplay" class="timer">25:00</div>
+          <div id="pomState" style="font-size: 0.875rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem;" data-i18n="ready">Pronto</div>
+          <div class="pomodoro-controls">
+            <button id="pomStart" data-i18n="start">Iniciar</button>
+            <button id="pomStop" class="secondary" data-i18n="stop">Parar</button>
+            <button id="pomReset" class="secondary" data-i18n="reset">Resetar</button>
+          </div>
+          <div class="pomodoro-stats">
+            <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));">
+              <div class="card-secondary">
+                <div class="value" id="pomCyclesToday">0</div>
+                <div class="label" data-i18n="cyclesToday">Ciclos Hoje</div>
+              </div>
+              <div class="card-secondary">
+                <div class="value" id="pomTotalCycles">0</div>
+                <div class="label" data-i18n="totalCycles">Total de Ciclos</div>
+              </div>
+              <div class="card-secondary">
+                <div class="value" id="pomTotalTime">0min</div>
+                <div class="label" data-i18n="focusedTime">Tempo Focado</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row">
-          <button id="pomStart">Iniciar</button>
-          <button id="pomStop">Parar</button>
-        </div>
-        <div class="row">
-          <div id="pomDisplay" class="timer">00:00</div>
-          <div id="pomState"></div>
-        </div>
-      </section>
-
-      <!-- RETENÇÃO -->
-      <section id="retencao" class="panel">
-        <h2>Retenção por Revisão</h2>
-        <div class="row">
-          <label>Última revisão (dias atrás): <input id="diasDesdeRevisao" type="number" value="0" /></label>
-          <label>Revisões feitas: <input id="revisoesFeitas" type="number" value="0" /></label>
-        </div>
-        <div class="row">
-          <button id="btnCalcularRetencao">Calcular Retenção</button>
-        </div>
-        <pre id="retencaoOutput" class="output"></pre>
       </section>
 
       <!-- HÁBITOS -->
       <section id="habitos" class="panel">
-        <h2>Planilha de Hábitos</h2>
+        <h2 data-i18n="habits">Planilha de Hábitos</h2>
         <div class="row">
-          <input id="habitoNome" placeholder="Nome do hábito (ex: resumo diário)" />
-          <button id="btnAddHabito">Adicionar</button>
+          <input id="habitoNome" type="text" data-i18n-placeholder="habitName" placeholder="Nome do hábito" style="flex: 1;" />
+          <button id="btnAddHabito" data-i18n="add">Adicionar</button>
         </div>
-        <div class="row">
-          <div id="habitosList"></div>
-        </div>
+        <div id="habitosList" style="margin-top: 1.5rem;"></div>
       </section>
 
-      <!-- DASHBOARD -->
-      <section id="dashboard" class="panel">
-        <h2>Dashboard</h2>
-        <div id="dashStats" class="output"></div>
+      <!-- RETENÇÃO -->
+      <section id="retencao" class="panel">
+        <h2 data-i18n="retention">Retenção por Revisão</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">
+          Calcule a retenção de conhecimento baseada na curva de esquecimento e nas revisões realizadas.
+        </p>
         <div class="row">
-          <button id="btnAtualizarDash">Atualizar Dashboard</button>
+          <label>
+            <strong data-i18n="lastReview">Última revisão (dias atrás):</strong>
+            <input id="diasDesdeRevisao" type="number" value="0" min="0" />
+          </label>
+          <label>
+            <strong data-i18n="reviewsDone">Número de revisões feitas:</strong>
+            <input id="revisoesFeitas" type="number" value="0" min="0" />
+          </label>
         </div>
+        <div class="row">
+          <button id="btnCalcularRetencao" data-i18n="calculateRetention">Calcular Retenção</button>
+        </div>
+        <div id="retencaoOutput" class="output"></div>
       </section>
     </main>
 
     <footer>
-      <small>STUDIUM • sem backend • dados locais (localStorage)</small>
+      <small data-i18n="footerText">STUDIUM • Sistema de gestão de estudos • Dados salvos localmente</small>
     </footer>
   </div>
 
