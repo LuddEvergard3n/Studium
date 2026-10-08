@@ -1,103 +1,62 @@
-# STUDIUM
+# Studium
 
-**STUDIUM** is an open-source study management tool focused on real metrics, consistency, and disciplined work — not on artificial motivation or gamification.
+![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?logo=javascript&logoColor=111111)
+![Storage](https://img.shields.io/badge/Storage-Local-4F46E5)
+![Languages](https://img.shields.io/badge/UI-PT_EN_ES-2563EB)
 
-The project aims to function as a **personal study tracking system**, bringing together scheduling, focus sessions, habits, and objective metrics in a simple, functional, and classic Web2-style interface.
-
-This project was developed as part of a technical portfolio and is under continuous improvement.
-
----
-
-## Project Philosophy
-
-STUDIUM is built on a few core principles:
-
-- Studying is a measurable process
-- Consistency matters more than motivation
-- Metrics should reflect reality, not comfort the user
-- Tools should support the student, not distract them
-
-Because of this, the project deliberately avoids:
-- Excessive gamification
-- Social rankings or peer comparison
-- Decorative UI elements without practical value
-
----
+Browser-based study planner that combines scheduling, focus sessions, habit tracking, retention review, and local progress metrics.
 
 ## Features
 
-- **Main Dashboard**
-  - Quick overview of habits, focus sessions, and progress
-- **Weekly Study Schedule**
-  - Schedule generation based on available time
-- **Pomodoro Timer**
-  - Configurable focus and break sessions
-  - Automatic cycle tracking
-- **Habit Tracking**
-  - Creation and monitoring of daily habits
-- **Basic Metrics**
-  - Focused time
-  - Completed pomodoro cycles
-  - Habit streaks
-- **Data Export**
-  - Local data storage using `localStorage`
-  - Manual export for external analysis
+- Dashboard with study statistics.
+- Weekly schedule generated from available hours, subject priority, and workload.
+- Configurable Pomodoro focus and break periods.
+- Habit tracking.
+- Retention and review tools.
+- Portuguese, English, and Spanish interface modes.
+- Light and dark themes.
+- Local import and export.
+- PDF report generation through jsPDF.
 
----
+## Privacy
 
-## Technologies Used
+Studium runs in the browser and stores its working data locally. There is no account system or application backend. Users should export a backup before clearing browser data or moving to another device.
 
-- HTML5  
-- CSS3  
-- JavaScript (Vanilla)  
-- Local storage via `localStorage`
+## Run locally
 
-No frameworks or external libraries are used by design, prioritizing simplicity, full code control, and long-term maintainability.
+The application is static. Open it through a local HTTP server:
 
----
+```bash
+python3 -m http.server 8080
+```
 
-## Live Demo
+Then open `http://localhost:8080`.
 
-Online version (GitHub Pages):  
-👉 https://luddevergard3n.github.io/Studium/
+## Structure
 
----
+```text
+index.html             Application interface
+style.css              Responsive presentation and themes
+main.js                Bootstrap and shared orchestration
+modules/dashboard.js   Study metrics
+modules/cronograma.js  Weekly scheduling
+modules/pomodoro.js    Focus timer
+modules/habitos.js     Habit tracking
+modules/retencao.js    Retention review
+modules/i18n.js        PT, EN, and ES strings
+modules/pdf-report.js  PDF reporting
+```
 
-## Project Status
+## Runtime dependency
 
-STUDIUM is a **functional** project and continues to evolve.
+The interface loads jsPDF 2.5.1 from cdnjs for PDF generation. Other application behavior uses browser APIs and local JavaScript modules.
 
-Potential future improvements include:
-- Advanced study history and analytics
-- Planned vs executed time comparison
-- Subject and content modeling
-- Structured exports (CSV / JSON)
-- Preparation for future mobile or desktop versions
+## Limitations
 
----
-
-## Contributions
-
-This is an open-source project and contributions are welcome.
-
-Suggestions, improvements, and fixes can be submitted via:
-- Issues
-- Pull Requests
-
-Please keep contributions aligned with the project’s scope and philosophy.
-
----
+- Data does not synchronize automatically between devices.
+- PDF generation requires the external jsPDF script to load.
+- The project currently has no automated test suite.
 
 ## License
 
-This project is licensed under the **MIT License**.
-
-You are free to:
-- Use
-- Modify
-- Distribute
-- Incorporate it into your own projects
-
-Provided *as is*, without warranty of any kind.
-
-See the `LICENSE` file for more information.
+See [LICENSE](LICENSE).
